@@ -1,5 +1,4 @@
 #pragma once
-
 typedef struct {
 	char year[8];
 	char month[4];
@@ -24,3 +23,8 @@ typedef struct {
 	NODE* curr;
 	int numOfData;
 } LIST;
+
+extern NODE g_HeadNode;
+extern NODE g_TailNode;
+
+void InitList(void);
