@@ -41,3 +41,5 @@ LIST* CreatList();
 void scanf_new_data(NODE* pNewNode);
 NODE* SearchNode(int roomno);
 void RemoveNode(NODE* pNode);
+void SaveListToFile(void);
+void loadDataFromFile(LIST* list);

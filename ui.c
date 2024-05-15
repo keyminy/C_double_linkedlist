@@ -24,23 +24,37 @@ void EventLoopRun(void) {
 	char ch = 0;
 	int sel_roomNo = 0;
 	NODE* found = (NODE*)malloc(sizeof(NODE));
+	loadDataFromFile(g_pList);
 	while (1) {
 		int breakFlag = 0;
 		menu = PrintMenu();
 		switch (menu) {
 		case NEW:// 1 
 		{
-			_stDate enterDate = { "2024", "05", "15" };
-			_stDate exitDate = { "2024", "05", "20" };
-			AddNewNode(
-				101
-				, "kim"
-				, "01012345678"
-				, 100000
-				, "seoul"
-				, &enterDate
-				, &exitDate
-			);
+			printf("------------------ < 입력 예약 >----------------------\n");
+			NODE* newNode = (NODE*)malloc(sizeof(NODE));
+			scanf_new_data(newNode);
+			
+			printf("확인 (y/n) : ");
+			scanf_s("%c%*c", &ch);
+			if (ch == 'y') {
+				if(SearchNode(newNode->roomno)){
+					printf("이미 예약된 객실입니다.\n");
+				}
+				else {
+					AddNewNode(
+						newNode->roomno
+						, newNode->name
+						, newNode->phone
+						, newNode->price
+						, newNode->address
+						, &newNode->enter_date
+						, &newNode->exit_date
+					);
+					printf("정상 예약 되었습니다.\n");
+				}
+			}
+			_getch(); // Used just to pause the screen
 			break;
 		}
 		case REMOVE: // 2 
@@ -109,7 +123,7 @@ void EventLoopRun(void) {
 			found = SearchNode(sel_roomNo);
 			if (found != NULL) {
 				printf("\nroomno : %d\n", found->roomno);
-				printf("name : %d\n", found->name);
+				printf("name : %s\n", found->name);
 				printf("phoneno : %s\n", found->phone);
 				printf("요금 : %.lf\n", found->price);
 				printf("주소 : %s\n", found->address);
@@ -125,8 +139,16 @@ void EventLoopRun(void) {
 			PrintAllList();
 			break;
 		case EXIT:
-			breakFlag = 1;
-			ReleaseAllList();
+			printf("--------------< 종료 >---------------------\n");
+			printf("  메뉴를 종료\n\n");
+			printf("확인(y / n) : ");
+			scanf_s("%c%*c", &ch);
+			if (ch == 'y') {
+				//  현재 예약 정보의 내용을 resversation.txt에 저장을 하고 화면을 종료 한다.
+				SaveListToFile();
+				breakFlag = 1;
+				ReleaseAllList();
+			}
 			break;
 		default:
 			break;
