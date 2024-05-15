@@ -5,9 +5,10 @@
 #include "list.h"
 
 
-int main() {
-	InitList();
 
+int main() {
+	Init_Dummy_Head_And_Tail();
+	g_pList = CreatList();
 	EventLoopRun();
 	return 0;
 }

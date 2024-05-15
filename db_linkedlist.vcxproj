@@ -131,6 +131,7 @@
     <ClInclude Include="ui.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="ui.c" />
   </ItemGroup>
