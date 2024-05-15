@@ -66,6 +66,38 @@ void EventLoopRun(void) {
 			_getch(); // Used just to pause the screen
 			break;
 		case MODIFY: // 3
+			printf("------------------ < 수정 예약 >----------------------\n");
+			printf("roomno 입력 : ");
+			scanf_s("%d%*c", &sel_roomNo);
+			found = SearchNode(sel_roomNo);
+			if (found != NULL) {
+				printf("확인 (y/n) : ");
+				scanf_s("%c%*c", &ch);
+				if (ch == 'y') {
+					printf("name : ");
+					gets_s(found->name, sizeof(found->name));
+					printf("phoneno : ");
+					gets_s(found->phone, sizeof(found->phone));
+					printf("price : ");
+					scanf_s("%lf%*c", &found->price);
+					printf("address : ");
+					gets_s(found->address, sizeof(found->address));
+					printf("Enter date(yyyy-mm-dd) : ");
+					scanf_s("%[^-]-%[^-]-%s%*c"
+						, found->enter_date.year, sizeof(found->enter_date.year)
+						, found->enter_date.month, sizeof(found->enter_date.month)
+						, found->enter_date.day, sizeof(found->enter_date.day));
+					printf("Exit date(yyyy-mm-dd) : ");
+					scanf_s("%[^-]-%[^-]-%s%*c"
+						, found->exit_date.year, sizeof(found->exit_date.year)
+						, found->exit_date.month, sizeof(found->exit_date.month)
+						, found->exit_date.day, sizeof(found->exit_date.day));
+					printf("정상 수정 되었습니다.\n");
+				}
+			}
+			else {
+				puts("없는 객실 입니다.");
+			}
 
 			_getch(); // Used just to pause the screen
 			break;

@@ -60,13 +60,13 @@ void PrintAllList(void) {
 		printf("roomno\tname\tphoneno      \t요금     \t주소    \t입실      \t퇴실        \n");
 		printf("------\t----\t-------------\t--------\t-------\t\t---------\t-----------\n");
 		while (g_pList->curr != NULL && g_pList->curr != g_pList->tail) {
-			printf("%-6d\t%-4s\t%-13s\t%-8.2f\t%-6s\t"
+			printf("%-6d\t%-4s\t%-13s\t%-8.0f\t%-6s\t"
 				, g_pList->curr->roomno
 				, g_pList->curr->name
 				, g_pList->curr->phone
 				, g_pList->curr->price
 				, g_pList->curr->address);
-			printf("%-4s-%-2s-%-2s\t%-4s-%-2s-%-2s\n"
+			printf("\t%-4s-%-2s-%-2s\t%-4s-%-2s-%-2s\n"
 				, g_pList->curr->enter_date.year
 				, g_pList->curr->enter_date.month
 				, g_pList->curr->enter_date.day
