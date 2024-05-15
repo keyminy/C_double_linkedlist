@@ -21,11 +21,15 @@ MY_MENU PrintMenu(void) {
 
 void EventLoopRun(void) {
 	MY_MENU menu = 0;
+	char ch = 0;
+	int sel_roomNo = 0;
+	NODE* found = (NODE*)malloc(sizeof(NODE));
 	while (1) {
 		int breakFlag = 0;
 		menu = PrintMenu();
 		switch (menu) {
-		case NEW: {
+		case NEW:// 1 
+		{
 			_stDate enterDate = { "2024", "05", "15" };
 			_stDate exitDate = { "2024", "05", "20" };
 			AddNewNode(
@@ -37,17 +41,55 @@ void EventLoopRun(void) {
 				, &enterDate
 				, &exitDate
 			);
+			break;
 		}
-			break;
-		case REMOVE:
-			ReleaseAllList();
-			break;
+		case REMOVE: // 2 
+			printf("--------------< 삭제(퇴실) >---------------------\n");
 
-		case MODIFY:
+			printf("퇴실하시는 방 번호를 입력해주세요. \n");
+			printf("roomno 입력 : ");
+			scanf_s("%d%*c", &sel_roomNo);
+
+			found = SearchNode(sel_roomNo);
+			if (found != NULL) {
+				printf("name : %s\n", found->name);
+				printf("phoneno : %s\n\n", found->phone);
+				printf("확인 (y/n) : ");
+				scanf_s("%c%*c", &ch);
+				if (ch == 'y') {
+					RemoveNode(found);
+				}
+			}
+			else {
+				puts("없는 객실 입니다.");
+			}
+			_getch(); // Used just to pause the screen
 			break;
-		case SEARCH:
+		case MODIFY: // 3
+
+			_getch(); // Used just to pause the screen
 			break;
-		case PRINT:
+		case SEARCH: // 4
+			printf("----------------------- < 조회(개별조회) >---------------------------\n");
+			printf("roomno 입력 : ");
+			scanf_s("%d%*c", &sel_roomNo);
+			
+			found = SearchNode(sel_roomNo);
+			if (found != NULL) {
+				printf("\nroomno : %d\n", found->roomno);
+				printf("name : %d\n", found->name);
+				printf("phoneno : %s\n", found->phone);
+				printf("요금 : %.lf\n", found->price);
+				printf("주소 : %s\n", found->address);
+				printf("입실 : %s-%s-%s\n", &(found->enter_date.year), &(found->enter_date.month), &(found->enter_date.day));
+				printf("퇴실예정시각 : %s-%s-%s\n", &(found->exit_date.year), &(found->exit_date.month), &(found->exit_date.day));
+			}
+			else {
+				puts("없는 객실 번호 입니다.");
+			}
+			_getch(); // Used just to pause the screen
+			break;
+		case PRINT: // 5
 			PrintAllList();
 			break;
 		case EXIT:

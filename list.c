@@ -31,10 +31,6 @@ void AddNewNode(int roomno,
 	
 	//add new node
 	NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
-	if (pNewNode == NULL) {
-		printf("Memory allocation failed\n");
-		return;
-	}
 	pNewNode->roomno = roomno;
 	strcpy_s(pNewNode->name,sizeof(pNewNode->name), pszName);
 	strcpy_s(pNewNode->phone, sizeof(pNewNode->phone), pszPhone);
@@ -54,7 +50,7 @@ void AddNewNode(int roomno,
 	// The 3,4 courses
 	pPrevNode->next = pNewNode;
 	g_TailNode.prev = pNewNode;
-	g_pList->numOfData++; // amazing...!
+	g_pList->numOfData++;
 }
 
 void PrintAllList(void) {
@@ -63,7 +59,7 @@ void PrintAllList(void) {
 		printf("----------------------- < 전체조회(예약자 전체조회) >---------------------------\n");
 		printf("roomno\tname\tphoneno      \t요금     \t주소    \t입실      \t퇴실        \n");
 		printf("------\t----\t-------------\t--------\t-------\t\t---------\t-----------\n");
-		while (g_pList->curr != g_pList->tail) {
+		while (g_pList->curr != NULL && g_pList->curr != g_pList->tail) {
 			printf("%-6d\t%-4s\t%-13s\t%-8.2f\t%-6s\t"
 				, g_pList->curr->roomno
 				, g_pList->curr->name
@@ -112,4 +108,49 @@ void ReleaseAllList(void) {
 		free(pDelete);
 	}
 	Init_Dummy_Head_And_Tail();
+}
+
+void scanf_new_data(NODE* pNewNode) {
+	printf("roomno: ");
+	scanf_s("%d%*c", &pNewNode->roomno);
+	printf("name : ");
+	gets_s(pNewNode->name, sizeof(pNewNode->name));
+	printf("phone number : ");
+	gets_s(pNewNode->phone, sizeof(pNewNode->phone));
+	printf("price : ");
+	scanf_s("%lf%*c", &pNewNode->price);
+	printf("Address : ");
+	gets_s(pNewNode->address, sizeof(pNewNode->address));
+	printf("Enter date(yyyy-mm-dd) : ");
+	scanf_s("%s-%s-%s%*c"
+		, pNewNode->enter_date.year, sizeof(pNewNode->enter_date.year)
+		, pNewNode->enter_date.month, sizeof(pNewNode->enter_date.month)
+		, pNewNode->enter_date.day, sizeof(pNewNode->enter_date.day));
+	printf("Exit date(yyyy-mm-dd) : ");
+	scanf_s("%s-%s-%s%*c"
+		, pNewNode->exit_date.year, sizeof(pNewNode->exit_date.year)
+		, pNewNode->exit_date.month, sizeof(pNewNode->exit_date.month)
+		, pNewNode->exit_date.day, sizeof(pNewNode->exit_date.day));
+}
+
+NODE* SearchNode(int roomno) {
+	g_pList->curr = g_pList->head->next;
+	while (g_pList->curr != NULL && g_pList->curr != g_pList->tail) {
+		if (g_pList->curr->roomno == roomno) {
+			return g_pList->curr;
+		}
+		g_pList->curr = g_pList->curr->next;
+	}
+	return NULL;
+}
+
+void RemoveNode(NODE* pRemove) {
+	NODE* pPrev = pRemove->prev;
+	NODE* pNext = pRemove->next;
+	pPrev->next = pRemove->next;
+	pNext->prev = pRemove->prev;
+
+	printf("RemoveNode() : %s\n", pRemove->name);
+	free(pRemove);
+	g_pList->numOfData--;
 }

@@ -28,6 +28,7 @@ extern NODE g_HeadNode;
 extern NODE g_TailNode;
 extern LIST* g_pList;
 
+
 void Init_Dummy_Head_And_Tail(void);
 void AddNewNode(int roomno,
 	const char* pszName, const char* pszPhone,
@@ -37,3 +38,6 @@ void AddNewNode(int roomno,
 void PrintAllList(void);
 void ReleaseAllList(void);
 LIST* CreatList();
+void scanf_new_data(NODE* pNewNode);
+NODE* SearchNode(int roomno);
+void RemoveNode(NODE* pNode);
